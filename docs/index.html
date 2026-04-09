@@ -1,114 +1,138 @@
-<!-- force redeploy v91 -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>EBLG Dashboard</title>
+    <title>EBLG Dashboard PRO+</title>
 
-    <!-- Leaflet CSS -->
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-    <!-- Style -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Leaflet JS (charge une seule fois !) -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <!-- PolylineDecorator -->
-   <script src="libs/leaflet.polyline-decorator.min.js"></script>
-
-    <!-- Heatmap plugin (OBLIGATOIRE pour L.heatLayer) -->
-    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
-
+    <!-- MarkerCluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
+    <!-- Heatmap -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <!-- PolylineDecorator -->
+    <script src="https://unpkg.com/leaflet-polylinedecorator"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
 
-    <div id="app-container">
+<!-- ======================================================
+     SIDEBAR
+====================================================== -->
+<div id="sidebar" class="sidebar">
 
-        <!-- SIDEBAR -->
-        <div id="sidebar" class="glass sidebar-expanded">
+    <div id="sidebar-toggle" class="sidebar-toggle">☰</div>
 
-            <div id="sidebar-header">
-                <h2>EBLG Dashboard</h2>
-                <button id="sidebar-toggle">☰</button>
-            </div>
+    <!-- METAR -->
+    <section class="panel">
+        <h2>Météo</h2>
+        <div id="metar" class="data-block">Chargement METAR…</div>
+        <div id="taf" class="data-block">Chargement TAF…</div>
+    </section>
 
-            <div class="sb-section glass">
-                <h3>METAR</h3>
-                <div id="metar"></div>
-            </div>
+    <!-- RUNWAY PANEL -->
+    <section class="panel">
+        <h2>Piste active</h2>
+        <div id="runway-panel" class="data-block">—</div>
+    </section>
 
-            <div class="sb-section glass">
-                <h3>TAF</h3>
-                <div id="taf"></div>
-            </div>
-
-            <div class="sb-section glass">
-                <h3>Piste active</h3>
-                <div id="runway-panel"></div>
-            </div>
-            
-            <button id="toggle-heatmap" class="glass">Heatmap ON/OFF</button>
-            <button id="play-history" class="glass">Rejouer historique</button>
-            <button id="toggle-clusters" class="glass">Clusters ON/OFF</button>
-
-
-            <div class="sb-section glass">
-                <h3>État des services</h3>
-                <div id="status-panel"></div>
-            </div>
-
-            <!-- SONOMÈTRES -->
-            <div id="sono-panel" class="glass collapsed">
-                <div id="sono-header">
-                    <span>Sonomètres</span>
-                    <button id="sono-toggle">⯈</button>
-                </div>
-
-                <div id="sono-stats"></div>
-                <canvas id="sono-chart" width="220" height="60"></canvas>
-                <div id="sono-list"></div>
-            </div>
-
-            <div class="sb-section glass">
-                <h3>FIDS</h3>
-                <div id="fids"></div>
-            </div>
-
-            <button id="reset-map" class="glass">Reset carte</button>
+    <!-- FIDS -->
+    <section class="panel">
+        <h2>Départs</h2>
+        <div id="fids" class="fids-container">
+            <div class="fids-row">Chargement FIDS…</div>
         </div>
+    </section>
 
-        <!-- CONTENU PRINCIPAL -->
-        <div id="main">
-            <h2>Carte</h2>
-            <div id="map"></div>
-
-            <!-- PANNEAU DÉTAIL SONOMÈTRE -->
-            <div id="detail-panel" class="glass hidden">
-                <h3 id="detail-title"></h3>
-                <p><b>Adresse :</b> <span id="detail-address"></span></p>
-                <p><b>Commune :</b> <span id="detail-town"></span></p>
-                <p><b>Statut :</b> <span id="detail-status"></span></p>
-                <p><b>Distance piste :</b> <span id="detail-distance"></span></p>
-            </div>
+    <!-- SONOMETERS -->
+    <section class="panel">
+        <h2 id="sono-header">
+            Sonomètres <span id="sono-toggle">⯆</span>
+        </h2>
+        <div id="sono-panel">
+            <div id="sono-list" class="sono-list"></div>
         </div>
+    </section>
 
-    </div>
+    <!-- STATUS PANEL -->
+    <section class="panel">
+        <h2>Statut API</h2>
+        <div id="status-panel" class="status-panel"></div>
+    </section>
 
-    <div id="debug-panel" class="glass debug">
-    <div>FPS: <span id="fps"></span></div>
-    <div>CPU: <span id="cpu"></span></div>
-    <div>Render: <span id="render"></span> ms</div>
 </div>
 
 
-    <!-- Script principal -->
-    <script type="module" src="app.js?v=94"></script>
+<!-- ======================================================
+     DETAIL PANEL (RIGHT SIDE)
+====================================================== -->
+<div id="detail-panel" class="detail-panel hidden">
+    <h2 id="detail-title">—</h2>
+    <p><b>Adresse :</b> <span id="detail-address">—</span></p>
+    <p><b>Commune :</b> <span id="detail-town">—</span></p>
+    <p><b>Statut :</b> <span id="detail-status">—</span></p>
+    <p><b>Distance piste :</b> <span id="detail-distance">—</span></p>
+</div>
+
+
+<!-- ======================================================
+     MAP
+====================================================== -->
+<div id="map"></div>
+
+
+<!-- ======================================================
+     FLOATING BUTTONS
+====================================================== -->
+<div class="floating-buttons">
+
+    <button id="toggle-heatmap" class="float-btn">
+        Heatmap
+    </button>
+
+    <button id="toggle-clusters" class="float-btn">
+        Clusters
+    </button>
+
+    <button id="play-history" class="float-btn">
+        Historique
+    </button>
+
+</div>
+
+
+<!-- ======================================================
+     DEBUG PANEL
+====================================================== -->
+<div id="debug-panel" class="debug-panel">
+    <div>FPS : <span id="fps">0</span></div>
+    <div>CPU : <span id="cpu">0</span> ms</div>
+    <div>Render : <span id="render">0</span> ms</div>
+</div>
+
+
+<!-- ======================================================
+     SCRIPTS
+====================================================== -->
+
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- MarkerCluster -->
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<!-- App -->
+<script type="module" src="./app.js?v=97"></script>
 
 </body>
 </html>

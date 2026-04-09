@@ -1,368 +1,276 @@
 /* ======================================================
-   GLOBAL LAYOUT
+   GLOBAL
 ====================================================== */
 
 body {
     margin: 0;
-    font-family: "Inter", "Segoe UI", sans-serif;
-    background: #0a0d10;
-    color: #e8eef5;
-}
-
-#app-container {
-    display: flex;
-    height: 100vh;
+    padding: 0;
+    background: #0f1114;
+    color: #e6e6e6;
+    font-family: "Segoe UI", Roboto, sans-serif;
     overflow: hidden;
 }
 
-/* Sidebar + main layout */
-#sidebar {
-    width: 320px;
-    padding: 12px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: width 0.3s ease, transform 0.3s ease;
+h2 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #cfd3d8;
 }
 
-#main {
-    flex: 1;
-    padding: 12px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+.data-block {
+    background: #1c1f23;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #2a2f35;
+    font-size: 14px;
 }
 
-/* Sidebar header */
-#sidebar-header {
+
+/* ======================================================
+   SIDEBAR
+====================================================== */
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: rgba(20, 22, 26, 0.92);
+    backdrop-filter: blur(6px);
+    border-right: 1px solid #2a2f35;
+    padding: 12px;
+    overflow-y: auto;
+    transition: transform 0.25s ease;
+}
+
+.sidebar-collapsed {
+    transform: translateX(-260px);
+}
+
+.sidebar-toggle {
+    position: absolute;
+    top: 12px;
+    right: -32px;
+    width: 28px;
+    height: 28px;
+    background: #1c1f23;
+    border: 1px solid #2a2f35;
+    border-radius: 4px;
+    color: #cfd3d8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ======================================================
+   PANELS
+====================================================== */
+
+.panel {
+    margin-bottom: 18px;
+}
+
+#sono-header {
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#sidebar-toggle {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 6px;
-    color: #e8eef5;
-    cursor: pointer;
-    padding: 4px 8px;
+#sono-panel.collapsed {
+    display: none;
 }
 
-/* Glass effect */
-.glass {
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-}
-
-/* Sections sidebar */
-.sb-section {
-    padding: 8px 10px;
-}
 
 /* ======================================================
-   STATUS PANEL
+   SONOMETER LIST
 ====================================================== */
 
-#status-panel {
-    padding: 8px 10px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    border-radius: 8px;
-}
-
-.status-ok {
-    background: rgba(0, 255, 120, 0.12);
-    border: 1px solid rgba(0, 255, 120, 0.25);
-    color: #6aff9c;
-}
-
-.status-offline {
-    background: rgba(255, 80, 80, 0.12);
-    border: 1px solid rgba(255, 80, 80, 0.25);
-    color: #ff6b6b;
-}
-
-.status-fallback {
-    background: rgba(255, 200, 0, 0.12);
-    border: 1px solid rgba(255, 200, 0, 0.25);
-    color: #ffd86b;
-}
-
-#debug-panel {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px;
-    font-size: 12px;
-    opacity: 0.8;
-}
-
-/* ======================================================
-   RUNWAY PANEL
-====================================================== */
-
-#runway-panel {
-    padding: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.runway-22 {
-    border-color: rgba(255, 80, 80, 0.35);
-    color: #ff8a8a;
-}
-
-.runway-04 {
-    border-color: rgba(80, 160, 255, 0.35);
-    color: #8ac6ff;
-}
-
-.runway-unknown {
-    color: #9aa3ad;
-}
-
-/* ======================================================
-   RUNWAY MARKERS
-====================================================== */
-
-.runway-number {
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 18px;
-    text-shadow: 0 0 8px rgba(0,0,0,0.9);
-}
-
-.qfu-label {
-    color: #cfd8e3;
-    font-size: 12px;
-    font-weight: 600;
-    text-shadow: 0 0 6px rgba(0,0,0,0.8);
-}
-
-/* ======================================================
-   SONOMÈTRES
-====================================================== */
-
-#sono-panel {
-    padding: 10px;
-}
-
-#sono-header {
-    font-weight: 700;
-    cursor: pointer;
+.sono-list {
     display: flex;
-    justify-content: space-between;
-    font-size: 16px;
-    color: #e8eef5;
-}
-
-#sono-toggle {
-    font-size: 18px;
-    color: #9aa3ad;
-    background: none;
-    border: none;
-    cursor: pointer;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .sono-item {
-    padding: 6px 10px;
-    margin: 4px 0;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.04);
+    padding: 6px 8px;
+    background: #1c1f23;
+    border: 1px solid #2a2f35;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
 }
 
-.sono-green {
-    border-color: rgba(0,255,120,0.35);
-    color: #6aff9c;
-}
-
-.sono-red {
-    border-color: rgba(255,80,80,0.35);
-    color: #ff8a8a;
-}
-
-.sono-gray {
-    border-color: rgba(255,255,255,0.15);
-    color: #9aa3ad;
-}
-
-#sono-stats {
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #cfd8e3;
-}
-
-#sono-chart {
-    margin-top: 10px;
-    width: 220px;
-    height: 80px;
-    display: block;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 6px;
+.sono-item:hover {
+    background: #262a30;
 }
 
 .sono-highlight {
-    background: rgba(255, 255, 255, 0.18) !important;
-    border-color: rgba(255, 255, 255, 0.35) !important;
-    transform: scale(1.03);
-    transition: 0.15s ease;
-}
-#detail-panel {
-    position: absolute;
-    right: 20px;
-    top: 80px;
-    width: 260px;
-    padding: 14px;
-    z-index: 9999;
-    transition: 0.25s ease;
+    background: #2f3b4a !important;
+    border-color: #3f4f63 !important;
 }
 
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-#detail-panel h3 {
-    margin-top: 0;
-    color: #8ac6ff;
-}
 
 /* ======================================================
-   FIDS
+   DETAIL PANEL (RIGHT SIDE)
 ====================================================== */
 
-#fids {
-    margin-top: 6px;
+.detail-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 260px;
+    height: 100vh;
+    background: rgba(20, 22, 26, 0.92);
+    backdrop-filter: blur(6px);
+    border-left: 1px solid #2a2f35;
+    padding: 16px;
+    overflow-y: auto;
+    transition: transform 0.25s ease;
 }
 
-.fids-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    padding: 6px 10px;
-    border-radius: 8px;
-    margin-bottom: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
+.detail-panel.hidden {
+    transform: translateX(260px);
 }
 
-.fids-on-time {
-    border-color: rgba(0,255,120,0.35);
-    color: #6aff9c;
-}
-
-.fids-delayed {
-    border-color: rgba(255,200,0,0.35);
-    color: #ffd86b;
-}
-
-.fids-cancelled {
-    border-color: rgba(255,80,80,0.35);
-    color: #ff8a8a;
-}
-
-.fids-boarding {
-    border-color: rgba(80,160,255,0.35);
-    color: #8ac6ff;
-}
-
-.fids-unknown {
-    color: #9aa3ad;
-}
 
 /* ======================================================
    MAP
 ====================================================== */
 
 #map {
-    width: 100%;
-    flex: 1;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.12);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
 }
 
-#reset-map {
-    margin-top: 8px;
-    padding: 6px 12px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 6px;
+
+/* ======================================================
+   FLOATING BUTTONS
+====================================================== */
+
+.floating-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 999;
+}
+
+.float-btn {
+    padding: 8px 12px;
+    background: #1c1f23;
+    border: 1px solid #2a2f35;
+    border-radius: 4px;
+    color: #cfd3d8;
     cursor: pointer;
-    color: #e8eef5;
-    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s ease;
 }
 
-#reset-map:hover {
-    background: rgba(255,255,255,0.12);
+.float-btn:hover {
+    background: #262a30;
 }
+
+.float-btn.off {
+    opacity: 0.5;
+}
+
 
 /* ======================================================
-   METAR / TAF
+   FIDS
 ====================================================== */
 
-#metar, #taf {
-    padding: 8px;
-    font-family: "Consolas", monospace;
+.fids-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fids-row {
+    padding: 6px 8px;
+    border-radius: 4px;
+    background: #1c1f23;
+    border: 1px solid #2a2f35;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     font-size: 13px;
-    white-space: pre-wrap;
 }
+
+.fids-on-time {
+    border-color: #2e7d32;
+}
+
+.fids-delayed {
+    border-color: #ff9800;
+}
+
+.fids-cancelled {
+    border-color: #d32f2f;
+}
+
+.fids-boarding {
+    border-color: #1976d2;
+}
+
 
 /* ======================================================
-   SIDEBAR COLLAPSE
+   STATUS PANEL
 ====================================================== */
 
-.sidebar-collapsed {
-    width: 52px;
+.status-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.sidebar-collapsed .sb-section,
-.sidebar-collapsed #sono-panel,
-.sidebar-collapsed #reset-map {
-    display: none;
+.status-ok {
+    color: #4caf50;
 }
 
-.sidebar-collapsed h2 {
-    font-size: 16px;
+.status-fail {
+    color: #f44336;
 }
+
 
 /* ======================================================
-   RESPONSIVE MOBILE
+   DEBUG PANEL
 ====================================================== */
 
-@media (max-width: 900px) {
-    #app-container {
-        flex-direction: column;
-    }
+.debug-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(20, 22, 26, 0.92);
+    backdrop-filter: blur(6px);
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #2a2f35;
+    font-size: 13px;
+    z-index: 999;
+}
 
-    #sidebar {
-        width: 100%;
-        order: 1;
-    }
+.debug-panel div {
+    margin-bottom: 4px;
+}
 
-    #main {
-        order: 2;
-        height: calc(100vh - 260px);
-    }
 
-    #map {
-        height: 100%;
-    }
+/* ======================================================
+   RUNWAY NUMBERS
+====================================================== */
 
-    .sidebar-collapsed {
-        transform: translateY(-90%);
-    }
+.runway-number {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 0 4px black;
 }
